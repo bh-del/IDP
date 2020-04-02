@@ -76,7 +76,9 @@ z konsoli (cmd) C:\Program Files\PostgreSQL\9.6\bin
 
 warto sprawdzić po każdym zapytaniu wynik w QGIS
 
->CREATE TABLE test1 AS SELECT dp.* FROM maska, LATERAL ST_DumpAsPolygons(rast) AS dp
+>CREATE TABLE maska_w AS SELECT dp.* FROM maska, LATERAL ST_DumpAsPolygons(rast) AS dp;
+
+>ALTER TABLE maska_w ADD COLUMN rid serial;
 
 >ALTER TABLE maska_w ADD PRIMARY KEY (rid);
 
@@ -149,6 +151,8 @@ INSERT INTO maska (rid) VALUES (1);
 UPDATE maska SET rast=(SELECT ST_MapAlgebra (maska_s.st_slope,1,maska_a.st_aspect,1,'([rast1]*[rast2.val])') AS rast FROM maska_s,maska_a) WHERE rid=1;
 
 CREATE TABLE maska_w AS SELECT dp.* FROM maska, LATERAL ST_DumpAsPolygons(rast) AS dp;
+
+ALTER TABLE maska_w ADD COLUMN rid serial;
 
 ALTER TABLE maska_w ADD PRIMARY KEY (rid);
 
