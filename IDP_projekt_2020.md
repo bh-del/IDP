@@ -8,6 +8,8 @@ Celem projektu jest "zabawa" z danymi przestrzennymi:
 
 Celem projektu jest integracja danych, a nie samo wykonywanie analizy przestrzennej. Czy w jajk największym stopniu poznajemy różnorodne możliwości przygotowania danych do dalszej analizy.
 
+Webinar: https://fotogrametria.agh.edu.pl/~galia/idp_fdss/IDP_2020-04-06_13-06-22.mkv
+
 ## Model wektorowy, model rastrowy
 W modelu wektorowym obiekty przedstawiane są za pomocą punktów, linii i poligonów, z wykorzystaniem współrzędnych. 
 
