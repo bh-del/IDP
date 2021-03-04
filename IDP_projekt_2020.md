@@ -1,4 +1,4 @@
-# IDP projekt 2020
+# IDP projekt 
 ---
 Celem projektu jest "zabawa" z danymi przestrzennymi:
 
