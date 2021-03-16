@@ -9,13 +9,14 @@ sprawdzenie wersji i wyświetlenie pomocy do funkcji gdalwarp
  >gdalwarp --help
 
 transformacja SRTM z WGS84 to UTM 34 (EPSG:32634) 
+C:\Program Files\QGIS 3.16\bin
 >gdalwarp -t_srs EPSG:32634 n50_e021_1arc_v3.tif  srtm.tif
 
 ---
 ## Konsola Windows
 ## Import SRTM do postgres
 
-z konsoli (cmd) C:\Program Files\PostgreSQL\9.6\bin
+z konsoli (cmd) C:\Program Files\QGIS 3.16\bin 
 >raster2pgsql.exe -s 32634 -C c:\tmp1\srtm.tif srtm | psql -d egib -U postgres -p 5432
 
 ---
@@ -84,13 +85,28 @@ warto sprawdzić po każdym zapytaniu wynik w QGIS
 
 >ALTER TABLE maska_w ALTER COLUMN geom TYPE geometry(Polygon);
 
-
 ### Nadawanie układu współrzędnych
 
 >SELECT UpdateGeometrySRID('maska_w','geom',32634);
 >SELECT FIND_SRID('public','maska_w','geom');
 
+### Zamiana układu współrzędnych tabela1 EPSG 32634
 
+>CREATE TABLE tabelaUtm AS SELECT id, pow_opis, pow2, ST_Transform(geom,32634) AS geom FROM tabela1;
+
+### Przecięcie maska_w i tabelaUtm
+
+>CREATE TABLE wynik1 AS SELECT  id, pow_opis, pow2, (ST_Intersection(tabelaUtm.geom, maska_w.geom)) AS geom FROM tabelaUtm, maska_w;
+
+### Dodanie klucza głównego
+
+>ALTER TABLE wynik1 ADD COLUMN gid serial PRIMARY KEY; 
+
+### Sprawdzenie poprawności i usunięcie błędłów
+
+>SELECT id, St_IsValid(geom) as test from tabelautm where St_IsValid(geom) = 'f'; 
+
+>DELETE FROM tabelautm where St_IsValid(geom) = 'f';
 
 
 ## dodatek
@@ -161,6 +177,17 @@ ALTER TABLE maska_w ALTER COLUMN geom TYPE geometry(Polygon);
 SELECT UpdateGeometrySRID('maska_w','geom',32634);
 
 SELECT FIND_SRID('public','maska_w','geom');
+
+>CREATE TABLE tabelaUtm AS SELECT id, pow_opis, pow2, ST_Transform(geom,32634) AS geom FROM tabela1;
+
+>CREATE TABLE wynik1 AS SELECT  id, pow_opis, pow2, (ST_Intersection(tabelaUtm.geom, maska_w.geom)) AS geom FROM tabelaUtm, maska_w;
+
+>ALTER TABLE wynik1 ADD COLUMN gid serial PRIMARY KEY; 
+
+>SELECT id, St_IsValid(geom) as test from tabelautm where St_IsValid(geom) = 'f'; 
+
+>DELETE FROM tabelautm where St_IsValid(geom) = 'f';
+
 
 
 ------
