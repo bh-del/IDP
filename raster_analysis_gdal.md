@@ -178,15 +178,15 @@ SELECT UpdateGeometrySRID('maska_w','geom',32634);
 
 SELECT FIND_SRID('public','maska_w','geom');
 
->CREATE TABLE tabelaUtm AS SELECT id, pow_opis, pow2, ST_Transform(geom,32634) AS geom FROM tabela1;
+CREATE TABLE tabelaUtm AS SELECT id, pow_opis, pow2, ST_Transform(geom,32634) AS geom FROM tabela1;
 
->CREATE TABLE wynik1 AS SELECT  id, pow_opis, pow2, (ST_Intersection(tabelaUtm.geom, maska_w.geom)) AS geom FROM tabelaUtm, maska_w;
+CREATE TABLE wynik1 AS SELECT  id, pow_opis, pow2, (ST_Intersection(tabelaUtm.geom, maska_w.geom)) AS geom FROM tabelaUtm, maska_w;
 
->ALTER TABLE wynik1 ADD COLUMN gid serial PRIMARY KEY; 
+ALTER TABLE wynik1 ADD COLUMN gid serial PRIMARY KEY; 
 
->SELECT id, St_IsValid(geom) as test from tabelautm where St_IsValid(geom) = 'f'; 
+SELECT id, St_IsValid(geom) as test from tabelautm where St_IsValid(geom) = 'f'; 
 
->DELETE FROM tabelautm where St_IsValid(geom) = 'f';
+DELETE FROM tabelautm where St_IsValid(geom) = 'f';
 
 
 
